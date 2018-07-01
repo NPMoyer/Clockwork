@@ -1,18 +1,19 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Clockwork.API.Models;
+using Newtonsoft.Json;
 
 namespace Clockwork.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/{offset}")]
     public class CurrentTimeController : Controller
     {
         // GET api/currenttime
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult Get(int offset)
         {
-            var utcTime = DateTime.UtcNow;
-            var serverTime = DateTime.Now;
+            var utcTime = DateTime.UtcNow.AddHours(offset);
+            var serverTime = DateTime.Now.AddHours(offset);
             var ip = this.HttpContext.Connection.RemoteIpAddress.ToString();
 
             var returnVal = new CurrentTimeQuery

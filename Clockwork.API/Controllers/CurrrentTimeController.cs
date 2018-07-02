@@ -1,7 +1,6 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Clockwork.API.Models;
-using Newtonsoft.Json;
 
 namespace Clockwork.API.Controllers
 {

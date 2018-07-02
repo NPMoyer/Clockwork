@@ -1,16 +1,23 @@
 ﻿<script>
-function UserAction(offset) {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            document.getElementById("output").innerHTML = this.responseText;
-        }
-    };
-    xhttp.open("GET", "http://localhost:53958/api/currenttime/"+ offset, true);
-    xhttp.setRequestHeader("Content-type", "application/json");
-    xhttp.send();
+    function UserAction(offset) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                dynamic res = js.Deserialize<dynamic>(this.responseText);
+                document.getElementById("id").innerHTML = res["currentTimeQueryId"];
+                document.getElementById("time").innerHTML = res["time"];
+                document.getElementById("timeUTC").innerHTML = res["utcTime"];
+                document.getElementById("ip").innerHTML = res["clientIp"];
 
-}
+                //document.getElementById("output").innerHTML = this.responseText;
+            }
+        };
+        xhttp.open("GET", "http://localhost:53958/api/currenttime/" + offset, true);
+        xhttp.setRequestHeader("Content-type", "application/json");
+        xhttp.send();
+
+    }
 </script>
 
 <h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
@@ -103,4 +110,17 @@ function UserAction(offset) {
 
 <button type="submit" onclick="UserAction(timeZones.value)">Get the time</button>
 
-<p id="output"></p>
+<table style="width:100%">
+    <tr>
+        <th>ID</th>
+        <th>Server Time</th>
+        <th>UTC Time</th>
+        <th>Client IP</th>
+    </tr>
+    <tr>
+        <td id="id"></td>
+        <td id="time"></td>
+        <td id="timeUTC"></td>
+        <td id="ip"></td>
+    </tr>
+</table>

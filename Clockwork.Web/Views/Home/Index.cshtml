@@ -11,22 +11,20 @@
     }
 </style>
 
+<script src="~/Scripts/jquery-3.3.1.js"></script>
 <script>
     function UserAction(offset) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var jsonResponse = JSON.parse(this.responseText);
-                document.getElementById("id").innerHTML = jsonResponse["currentTimeQueryId"];
-                document.getElementById("time").innerHTML = jsonResponse["time"];
-                document.getElementById("timeUTC").innerHTML = jsonResponse["utcTime"];
-                document.getElementById("ip").innerHTML = jsonResponse["clientIp"];
+                $('#results').append('<tr><td>' + jsonResponse["currentTimeQueryId"] + '</td><td>' + jsonResponse["time"] + '</td><td>' +
+                    jsonResponse["utcTime"] + '</td><td>' + jsonResponse["clientIp"] + '</td></tr>');
             }
         };
         xhttp.open("GET", "http://localhost:53958/api/currenttime/" + offset, true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
-
     }
 </script>
 
@@ -120,17 +118,11 @@
 
 <button type="submit" onclick="UserAction(timeZones.value)">Get the time</button>
 
-<table style="width:100%">
+<table id="results" style="width:100%">
     <tr>
         <th>ID</th>
         <th>Server Time</th>
         <th>UTC Time</th>
         <th>Client IP</th>
-    </tr>
-    <tr>
-        <td id="id"></td>
-        <td id="time"></td>
-        <td id="timeUTC"></td>
-        <td id="ip"></td>
     </tr>
 </table>

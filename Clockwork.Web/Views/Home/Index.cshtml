@@ -1,16 +1,26 @@
-﻿<script>
+﻿<style>
+    table, th, td{
+        border: 1px solid black;
+        border-collapse: collapse;
+    }
+    th, td{
+        padding: 5px;
+    }
+    th{
+        text-align: left;
+    }
+</style>
+
+<script>
     function UserAction(offset) {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                dynamic res = js.Deserialize<dynamic>(this.responseText);
-                document.getElementById("id").innerHTML = res["currentTimeQueryId"];
-                document.getElementById("time").innerHTML = res["time"];
-                document.getElementById("timeUTC").innerHTML = res["utcTime"];
-                document.getElementById("ip").innerHTML = res["clientIp"];
-
-                //document.getElementById("output").innerHTML = this.responseText;
+                var jsonResponse = JSON.parse(this.responseText);
+                document.getElementById("id").innerHTML = jsonResponse["currentTimeQueryId"];
+                document.getElementById("time").innerHTML = jsonResponse["time"];
+                document.getElementById("timeUTC").innerHTML = jsonResponse["utcTime"];
+                document.getElementById("ip").innerHTML = jsonResponse["clientIp"];
             }
         };
         xhttp.open("GET", "http://localhost:53958/api/currenttime/" + offset, true);
@@ -24,15 +34,15 @@
 
 <select id="timeZones">
     <!--https://www.freeformatter.com/time-zone-list-html-select.html-->
-    <option timeZoneId="1" gmtAdjustment="GMT-12:00" useDaylightTime="0" value="-12">(GMT-12:00) International Date Line West</option>
-    <option timeZoneId="2" gmtAdjustment="GMT-11:00" useDaylightTime="0" value="-11">(GMT-11:00) Midway Island, Samoa</option>
-    <option timeZoneId="3" gmtAdjustment="GMT-10:00" useDaylightTime="0" value="-10">(GMT-10:00) Hawaii</option>
-    <option timeZoneId="4" gmtAdjustment="GMT-09:00" useDaylightTime="1" value="-9">(GMT-09:00) Alaska</option>
-    <option timeZoneId="5" gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
-    <option timeZoneId="6" gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Tijuana, Baja California</option>
-    <option timeZoneId="7" gmtAdjustment="GMT-07:00" useDaylightTime="0" value="-7">(GMT-07:00) Arizona</option>
-    <option timeZoneId="8" gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
-    <option timeZoneId="9" gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
+    <option timeZoneId="1"  gmtAdjustment="GMT-12:00" useDaylightTime="0" value="-12">(GMT-12:00) International Date Line West</option>
+    <option timeZoneId="2"  gmtAdjustment="GMT-11:00" useDaylightTime="0" value="-11">(GMT-11:00) Midway Island, Samoa</option>
+    <option timeZoneId="3"  gmtAdjustment="GMT-10:00" useDaylightTime="0" value="-10">(GMT-10:00) Hawaii</option>
+    <option timeZoneId="4"  gmtAdjustment="GMT-09:00" useDaylightTime="1" value="-9">(GMT-09:00) Alaska</option>
+    <option timeZoneId="5"  gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Pacific Time (US & Canada)</option>
+    <option timeZoneId="6"  gmtAdjustment="GMT-08:00" useDaylightTime="1" value="-8">(GMT-08:00) Tijuana, Baja California</option>
+    <option timeZoneId="7"  gmtAdjustment="GMT-07:00" useDaylightTime="0" value="-7">(GMT-07:00) Arizona</option>
+    <option timeZoneId="8"  gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Chihuahua, La Paz, Mazatlan</option>
+    <option timeZoneId="9"  gmtAdjustment="GMT-07:00" useDaylightTime="1" value="-7">(GMT-07:00) Mountain Time (US & Canada)</option>
     <option timeZoneId="10" gmtAdjustment="GMT-06:00" useDaylightTime="0" value="-6">(GMT-06:00) Central America</option>
     <option timeZoneId="11" gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Central Time (US & Canada)</option>
     <option timeZoneId="12" gmtAdjustment="GMT-06:00" useDaylightTime="1" value="-6">(GMT-06:00) Guadalajara, Mexico City, Monterrey</option>

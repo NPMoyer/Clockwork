@@ -4,12 +4,12 @@ using Clockwork.API.Models;
 
 namespace Clockwork.API.Controllers
 {
-    [Route("api/[controller]/{offset}")]
+    [Route("api/[controller]/{offset}/{timeZone}")]
     public class CurrentTimeController : Controller
     {
         // GET api/currenttime
         [HttpGet]
-        public IActionResult Get(double offset)
+        public IActionResult Get(double offset, string timeZone)
         {
             var utcTime = DateTime.UtcNow.AddHours(offset);
             var serverTime = DateTime.Now;
@@ -19,7 +19,8 @@ namespace Clockwork.API.Controllers
             {
                 UTCTime = utcTime,
                 ClientIp = ip,
-                Time = serverTime
+                Time = serverTime,
+                TimeZone = timeZone
             };
 
             using (var db = new ClockworkContext())

@@ -15,14 +15,15 @@
 <script>
     function UserAction(offset) {
         var xhttp = new XMLHttpRequest();
+        var timeZone = "GMT" + offset + ":00";
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 var jsonResponse = JSON.parse(this.responseText);
                 $('#results').append('<tr><td>' + jsonResponse["currentTimeQueryId"] + '</td><td>' + jsonResponse["time"] + '</td><td>' +
-                    jsonResponse["utcTime"] + '</td><td>' + jsonResponse["clientIp"] + '</td></tr>');
+                    jsonResponse["utcTime"] + '</td><td>' + jsonResponse["timeZone"] + '</td><td>' + jsonResponse["clientIp"]+ '</td ></tr >');
             }
         };
-        xhttp.open("GET", "http://localhost:53958/api/currenttime/" + offset, true);
+        xhttp.open("GET", "http://localhost:53958/api/currenttime/" + offset + "/" + timeZone, true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
     }
@@ -123,6 +124,7 @@
         <th>ID</th>
         <th>Server Time</th>
         <th>UTC Time</th>
+        <th>Time Zone</th>
         <th>Client IP</th>
     </tr>
 </table>

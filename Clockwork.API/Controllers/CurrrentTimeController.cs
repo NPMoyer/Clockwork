@@ -1,13 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Clockwork.API.Models;
+using System.Linq;
+using System.Collections.Generic;
 
 namespace Clockwork.API.Controllers
 {
-    [Route("api/[controller]/{offset}/{timeZone}")]
     public class CurrentTimeController : Controller
     {
-        // GET api/currenttime
+        [Route("api/[controller]/{offset}/{timeZone}")]
         [HttpGet]
         public IActionResult Get(double offset, string timeZone)
         {
@@ -37,6 +38,17 @@ namespace Clockwork.API.Controllers
             }
 
             return Ok(returnVal);
+        }
+
+        [Route("api/[controller]/all")]
+        [HttpGet]
+        public IActionResult GetAll()
+        {
+            ClockworkContext db = new ClockworkContext();
+            var val = new List<CurrentTimeQuery>();
+
+            val.AddRange(db.CurrentTimeQueries.ToList());
+            return Ok(val);
         }
     }
 }

@@ -1,5 +1,7 @@
-﻿$(document).ready(LoadAllInitial());
+﻿// Populate the table once the page has loaded
+$(document).ready(LoadAllInitial());
 
+// Send an http request to the API and parse the response 
 function UserAction(offset) {
     var xhttp = new XMLHttpRequest();
     if (offset < 0)
@@ -21,6 +23,7 @@ function UserAction(offset) {
     xhttp.send();
 }
 
+// Populate the table with the selected number of database entries
 function LoadAll() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -38,6 +41,7 @@ function LoadAll() {
                     jsonResponse[i]["utcTime"] + '</td><td>' + jsonResponse[i]["timeZone"] + '</td><td>' + jsonResponse[i]["clientIp"] + '</td ></tr >');
             }
 
+            // User selected more database entries than acctually exist
             if (selectedLength > jsonLenght) {
                 alert("Only " + jsonLenght + " entries in databse!")
                 document.getElementById("queries").value = jsonLenght;
@@ -56,6 +60,7 @@ function LoadAllInitial() {
             var jsonResponse = JSON.parse(this.responseText);
             var jsonLenght = jsonResponse.length;
 
+            // Max number of entries to display = 20
             if (jsonLenght < 20)
                 document.getElementById("queries").value = jsonLenght;
             else
